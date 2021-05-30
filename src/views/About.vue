@@ -12,18 +12,20 @@
         <h2 class="text-center">{{ titleOfUser }}</h2>
         <h4>Body: {{ bodyOfUser }}</h4>
       </div>
-      <hr />
-      <v-list-item v-for="(item, i) in title" :key="i" three-line>
-        <v-list-item-content>
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
-          <v-list-item-subtitle>
-            {{ item.email }}
-          </v-list-item-subtitle>
-          <v-list-item-subtitle>
-            {{ item.body }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+      <hr>
+      <div v-if="newData">
+        <v-list-item v-for="(item, i) in title" :key="i" three-line>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+            <v-list-item-subtitle>
+              {{ item.email }}
+            </v-list-item-subtitle>
+            <v-list-item-subtitle>
+              {{ item.body }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </div>
       <div v-if="showLoader">
         <v-skeleton-loader
           v-bind="attrs"
@@ -48,7 +50,8 @@ export default {
     return {
       titleOfUser: "",
       bodyOfUser: "",
-      showLoader: false
+      showLoader: false,
+      newData: false
     };
   },
   computed: {
@@ -63,6 +66,7 @@ export default {
         this.titleOfUser = decodeURIComponent(this.$route.params.title);
         this.bodyOfUser = decodeURIComponent(this.$route.params.body);
         await store.dispatch("getProfile", this.$route.params.id);
+        this.newData = true;
         this.showLoader = false;
       }
     } catch (error) {
