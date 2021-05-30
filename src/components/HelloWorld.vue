@@ -40,7 +40,7 @@
       <v-pagination
         v-model="page"
         @click="clickCallback(page)"
-        :length="4"
+        :length="count"
         circle
       ></v-pagination>
     </div>
@@ -107,7 +107,7 @@ export default {
             this.orders = result.data;
             this.ordersList = result.data;
             this.noDataFound = false;
-            this.count = this.orders.length / 20;
+            this.count = Math.ceil(this.orders.length / 20);
           } else {
             this.showLoader = false;
             this.noDataFound = true;
